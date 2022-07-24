@@ -35,9 +35,9 @@ function tryObjectEnter(obj)
    end
    self.putObject(takeObj)
   end
-  Wait.frames(function()updateAttachments()end,1)
- elseif obj.type=='Card' then
-  Wait.frames(function()updateAttachments()end,1)
+  Wait.frames(||updateAttachments(),1)
+ elseif obj.type=='Card'then
+  Wait.frames(||updateAttachments(),1)
   return true
  end
 end
@@ -57,7 +57,8 @@ function updateAttachments()
   attachLegend(c)
  end
  self.script_state="done"
- self.reload()
+ if not deleting then self.reload()end
+ deleting=true
 end
 
 function attachLegend(c)
