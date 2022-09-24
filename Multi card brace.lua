@@ -15,7 +15,7 @@ function onLoad(state)
  height=250,
  position={2.4,0,-2.2},
  scale={1/scale[1],1/scale[2],1/scale[3]},
- click_function="DeleteBrace",
+ click_function="deleteBrace",
  }
  self.createButton(params)
 end
@@ -95,11 +95,21 @@ function sortByMemo(a,b)
  return a.CardID<b.CardID
 end
 
-function DeleteBrace()
- deleting=true
- local numCards=self.getQuantity()
- for c=numCards,1,-1 do
-  self.takeObject({index=0,position=self.positionToWorld{0,0,0}})
+function deleteBrace(posRot)
+ local pos=self.getPosition()
+ local rot=self.getRotation()
+ if posRot~=self then
+  pos=posRot[1]
+  rot=posRot[2]
  end
+ deleting=true
+ emptyBrace(pos,rot)
  self.destruct()
+end
+
+function emptyBrace(pos,rot)
+ objs=self.getObjects()
+ for k,v in pairs(objs)do
+  if v~=nil then self.takeObject({index=0,position=pos,rotation=rot,smooth=true})end
+ end
 end
